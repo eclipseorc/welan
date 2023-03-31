@@ -12,7 +12,8 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "WeLan\\Lib\\": "src/welan"
+            "WeLan\\Lib\\": "src/welan/lib",
+            "WeLan\\Rpc\\": "src/welan/rpc"
         }
     }
 }
