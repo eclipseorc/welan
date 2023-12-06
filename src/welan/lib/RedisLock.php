@@ -14,20 +14,24 @@ class RedisLock
     private $_keyPrefix         = "RedisLock:";
 
     // 重试次数，0无限重试
-    private $_retryCount        = 0;
+    private $_retryCount        = 3;
+
     // 获取锁失败后重试等待的时间，微秒， 1ms=1000us;
     private $_retryIntervalUs   = 100000;
 
     // 获取锁失败后，是否重试
     private $_retry             = true;
+
     // 锁的超时时间，防止死锁发生
     private $_expire            = 0;
+
     // redis对象
     private $_redis             = null;
+
     // 锁key
     private $_lockKey           = '';
 
-    public function __construct($redisHandle = null, $keyPrefix = 'RedisLock:', $expire = 10, $retry = true, $retryCount = 0, $retryIntervalUs = 100000)
+    public function __construct($redisHandle = null, $keyPrefix = 'RedisLock:', $expire = 10, $retry = true, $retryCount = 3, $retryIntervalUs = 100000)
     {
         $this->_redis           = $redisHandle;
         $this->_expire          = $expire;

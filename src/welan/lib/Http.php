@@ -21,7 +21,7 @@ class Http
      */
     public static function HttpGet($url, $timeOut = 5, $noBody = 0)
     {
-        $timeOut    = (int)$timeOut <= 0 ? 0 : (int)$timeOut;
+        $timeOut    = max((int)$timeOut, 0);
         $ch         = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.8) Gecko/20120306 Firefox/5.0.1');
@@ -48,7 +48,7 @@ class Http
      */
     public static function HttpPost($url, $data = null, $header = [], $timeOut = 5)
     {
-        $timeOut    = (int)$timeOut <= 0 ? 0 : (int)$timeOut;
+        $timeOut    = max((int)$timeOut, 0);
         $ch         = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_FAILONERROR, false);

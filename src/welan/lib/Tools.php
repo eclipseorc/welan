@@ -100,13 +100,56 @@ class Tools
     }
 
     /**
-     * 按日期生成指定长度的订单流水号
+     * 获取指定长度的随机字符串
+     * @param $length
+     * @param $chars
+     * @return string
+     * author   oldtom
+     * date: 2023/10/5 18:16
+     */
+    public static function getRandomString($length, $chars = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890'): string
+    {
+        $hash   = '';
+        $max    = strlen($chars) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $hash .= $chars[mt_rand(0, $max)];
+        }
+        return $hash;
+    }
+
+    /**
+     * 按日期生成指定长度的流水号
      * @param int $length
      * @return string
      * author   oldtom
      * date     2023/3/30 19:02
      */
     public static function getOrderNo($length = 8) {
-        return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, $length);
+        $prefix = time();
+        return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid($prefix, true), 7, 13), 1))), 0, $length);
+    }
+
+    /**
+     * 根据输入的filed生成一个包含array中对应key值新的数组
+     * @param $field - 英文逗号分割的字符串
+     * @param $array - 数组
+     * @return array
+     * user: oldtom
+     * date: 2023/10/5 18:16
+     */
+    public static function arrayCapture($field = '', $array = [])
+    {
+        $data = [];
+        if (!empty($field)) {
+            $explodeArr = explode(',', $field);
+            if (!empty($explodeArr) && is_array($explodeArr)) {
+                foreach ($explodeArr as $key => $value) {
+                    if (isset($array[$value])) {
+                        $data[$value] = $array[$value];
+                    }
+                }
+            }
+        }
+        return $data;
     }
 }

@@ -28,7 +28,7 @@ class Runtime
      * author   oldtom
      * date     2023/3/30 16:36
      */
-    public static function getTime($type = 0)
+    public static function getRuntime($type = 0)
     {
         $startTime  = self::$startTime;
         $runtime    = (microtime(true) - $startTime) * 1000;
