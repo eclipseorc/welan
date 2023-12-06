@@ -69,6 +69,10 @@
   > 
   > 获取客户端ip地址，0获取点分ip，1获取整数ip
 
+  > mobilePartialMask($mobile = '')
+  > 
+  > 手机号码脱敏，兼容+86格式 
+
   > getRandomNum($length, $chars = '')  
   > 
   > 获取指定长度的随机数字串
@@ -84,3 +88,7 @@
   > arrayCapture($field = '', $array = [])  
   > 
   > 根据输入的filed生成一个包含array中对应key值新的数组
+
+  > timeToText($datetime = '')
+  > 
+  > 输入一个时间格式，输出文本类型的时间，例如“刚刚”，“1分钟前”，“2小时前”等

@@ -1,6 +1,8 @@
 <?php
 namespace WeLan\Lib;
 
+use Exception;
+
 /**
  * 工具类
  * Class Tools
@@ -83,6 +85,22 @@ class Tools
     }
 
     /**
+     * 手机号码脱敏
+     * @param $mobile
+     * @return array|string|string[]
+     * User: oldtom
+     * Date: 2023/12/6 18:00
+     */
+    public static function mobilePartialMask($mobile = '')
+    {
+        if (strlen($mobile) >= 11) {
+            return substr_replace($mobile, '****', -4, 4);
+        } else {
+            return $mobile;
+        }
+    }
+
+    /**
      * 获取指定长度的随机字符
      * @param $length   - 长度
      * @param string $chars 指定字符集
@@ -151,5 +169,35 @@ class Tools
             }
         }
         return $data;
+    }
+
+    /**
+     * @param $datetime
+     * @return string
+     * @throws Exception
+     * User: zhangliangliang
+     * Date: 2023/12/6 18:10
+     */
+    public static function timeToText($datetime = '')
+    {
+        $nowObj = new \DateTime();
+        try {
+            $paramObj = new \DateTime($datetime);
+        } catch (Exception $e) {
+            throw new Exception('时间格式错误');
+        }
+        $interval = $paramObj->diff($nowObj);
+        $daysDiff = $interval->d;
+        $hoursDiff = $interval->h;
+        $minutesDiff = $interval->i;
+        if ($daysDiff > 0) {
+            return $daysDiff . '天前';
+        } elseif ($hoursDiff > 0) {
+            return $hoursDiff . '小时前';
+        } elseif ($minutesDiff > 0) {
+            return $minutesDiff . '分钟前';
+        } else {
+            return '刚刚';
+        }
     }
 }
