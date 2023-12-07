@@ -92,3 +92,11 @@
   > timeToText($datetime = '')
   > 
   > 输入一个时间格式，输出文本类型的时间，例如“刚刚”，“1分钟前”，“2小时前”等
+
+  > base64UrlEncode($input = '')
+  > 
+  > 网络安全的base64编码函数
+
+  > base64UrlDecode($input = '')
+  > 
+  > 网络安全的base64解码函数

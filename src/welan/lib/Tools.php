@@ -172,11 +172,12 @@ class Tools
     }
 
     /**
+     * 时间转文本
      * @param $datetime
      * @return string
      * @throws Exception
      * User: zhangliangliang
-     * Date: 2023/12/6 18:10
+     * Date: 2023/12/7 15:31
      */
     public static function timeToText($datetime = '')
     {
@@ -199,5 +200,29 @@ class Tools
         } else {
             return '刚刚';
         }
+    }
+
+    /**
+     * 网络安全的base64编码
+     * @param string $input
+     * @return array|string|string[]
+     * User: zhangliangliang
+     * Date: 2023/12/6 18:27
+     */
+    public static function base64UrlEncode($input = '')
+    {
+        return str_replace('=', '', strtr(base64_encode($input), '+/', '-_'));
+    }
+
+    /**
+     * 网络安全的base64解码
+     * @param string $input
+     * @return false|string
+     * User: zhangliangliang
+     * Date: 2023/12/6 18:26
+     */
+    public static function base64UrlDecode($input = '')
+    {
+        return base64_decode(str_pad(strtr($input, '-_', '+/'), strlen($input) % 4, '=', STR_PAD_RIGHT));
     }
 }
