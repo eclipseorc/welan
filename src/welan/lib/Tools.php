@@ -143,8 +143,8 @@ class Tools
      * date     2023/3/30 19:02
      */
     public static function getOrderNo($length = 8) {
-        $prefix = time();
-        return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid($prefix, true), 7, 13), 1))), 0, $length);
+        $bytes = random_bytes(ceil($length / 2));
+        return date('Ymd') . substr(bin2hex($bytes), 0, $length);
     }
 
     /**

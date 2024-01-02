@@ -14,7 +14,7 @@
   >
   > post请求支持json请求，$data参数为string时，会自动转换为json格式
 
-* PkcsAes    对称加解密函数，使用aes-128-cbc加密算法
+* Aes    对称加解密函数，默认使用aes-128-cbc加密算法
   > encrypt($text, $key, $iv = '')
   > 
   > 对称加密
