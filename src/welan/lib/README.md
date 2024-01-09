@@ -100,3 +100,19 @@
   > base64UrlDecode($input = '')
   > 
   > 网络安全的base64解码函数
+
+  > isIdCardNo($idCardNo = '')
+  > 
+  > 检测身份证号码，支持大陆，香港台湾澳门 
+
+  > calAge($birthday = '')
+  > 
+  > 计算年龄
+
+  > xmlToArray($xml)
+  > 
+  > xml转数组
+
+  > arrayToXml($array)
+  > 
+  > 数组转xml

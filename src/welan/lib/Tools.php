@@ -1,6 +1,7 @@
 <?php
 namespace WeLan\Lib;
 
+use DateTime;
 use Exception;
 
 /**
@@ -224,5 +225,76 @@ class Tools
     public static function base64UrlDecode($input = '')
     {
         return base64_decode(str_pad(strtr($input, '-_', '+/'), strlen($input) % 4, '=', STR_PAD_RIGHT));
+    }
+
+    /**
+     * 检测身份证号码，支持大陆，香港台湾澳门
+     * @param string $idCardNo
+     * @return bool
+     * User: zhangliangliang
+     * Date: 2024/1/9 16:56
+     */
+    public static function isIdCardNo($idCardNo = '')
+    {
+        $preg = '/^(\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX]))'
+            . '|(((\s?[A-Za-z])|([A-Za-z]{2}))\d{6}(\([0−9aA]\)|[0-9aA]))'
+            . '|([a-zA-Z][0-9]{9})'
+            . '|([1|5|7][0-9]{6}\([0-9Aa]\))$/';
+        if (preg_match($preg, $idCardNo)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 通过生日计算年龄
+     * @param $birthday
+     * @return string
+     * @throws Exception
+     * User: zhangliangliang
+     * Date: 2024/1/9 17:02
+     */
+    public static function calAge($birthday = '')
+    {
+        $birthday = new DateTime($birthday);
+        $now = new DateTime();
+        $age = $now->diff($birthday);
+        return $age->format('%y');
+    }
+
+    /**
+     * xml转数组
+     * @param $xml
+     * @return array
+     * User: zhangliangliang
+     * Date: 2024/1/9 17:05
+     */
+    public static function xmlToArray($xml)
+    {
+        return (array)simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+    }
+
+    /**
+     * 数组转xml
+     * @param $array
+     * @return string
+     * User: zhangliangliang
+     * Date: 2024/1/9 17:06
+     */
+    public static function arrayToXml($array)
+    {
+        if (!is_array($array) || count($array) <= 0) {
+            return strval($array);
+        }
+        $xml = "<xml>";
+        foreach ($array as $key => $val) {
+            if (is_numeric($val)) {
+                $xml .= "<" . $key . ">" . $val . "</" . $key . ">";
+            } else {
+                $xml .= "<" . $key . "><![CDATA[" . $val . "]]></" . $key . ">";
+            }
+        }
+        $xml .= "</xml>";
+        return $xml;
     }
 }
