@@ -52,12 +52,10 @@ class RedisLock
     {
         $this->_lockKey = $this->_keyPrefix . $key;
         $count          = 0;
+        $lockValue      = microtime(true);
         while (true) {
-            $nowTime    = self::maritime();
-            $lockValue  = self::maritime() + $this->_expire;
-            $lock       = $this->_redis->setnx($this->_lockKey, $lockValue);
-            if (!empty($lock) || ($this->_redis->get($this->_lockKey) < $nowTime && $this->_redis->getset($this->_lockKey, $lockValue) < $nowTime)) {
-                $this->_redis->expire($this->_lockKey, $this->_expire);
+            $lock       = $this->_redis->set($this->_lockKey, $lockValue, ['nx', 'ex' => $this->_expire]);
+            if ($lock) {
                 return true;
             } elseif ($this->_retry && (($this->_retryCount > 0 && ++$count < $this->_retryCount) || ($this->_retryCount == 0))) {
                 usleep($this->_retryIntervalUs);
@@ -77,9 +75,14 @@ class RedisLock
     public function unlock($lockKey)
     {
         $this->_lockKey = $this->_keyPrefix . $lockKey;
-        if ($this->_redis->ttl($this->_lockKey)) {
-            $this->_redis->del($this->_lockKey);
-        }
+        $script = '
+            if redis.call("TTL", KEYS[1]) then
+                return redis.call("DEL", KEYS[1])
+            else
+                return 0
+            end
+        ';
+        $this->_redis->eval($script, [$this->_lockKey], 1);
     }
 
     /**
@@ -145,11 +148,5 @@ class RedisLock
     {
         $this->_retryIntervalUs = $retryIntervalUs;
         return $this;
-    }
-
-    private static function maritime()
-    {
-        list($s1, $s2) = explode(' ', microtime());
-        return (float)sprintf('%.0f', (floatval($s1) + floatval($s2)) * 1000);
     }
 }

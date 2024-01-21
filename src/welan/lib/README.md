@@ -23,7 +23,7 @@
   > 
   > 对称解密
   
-* RedisLock    redis分布式锁
+* RedisLock    redis分布式锁，适用于单机redis，读写分离和集群版redis酌情使用
   > setKeyPrefix($prefix = '')
   > 
   > 设置key前缀
