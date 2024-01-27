@@ -297,4 +297,24 @@ class Tools
         $xml .= "</xml>";
         return $xml;
     }
+
+    /**
+     * 生成指定位数的请求id
+     * @return string
+     * @throws \Random\RandomException
+     * @throws Exception
+     */
+    public static function requestId($length = 24)
+    {
+        $hostname = gethostname();
+        $substr = substr($hostname, 0, 4);
+        if (function_exists("random_bytes")) {
+            $bytes = random_bytes(ceil($length / 2));
+        } elseif (function_exists("openssl_random_pseudo_bytes")) {
+            $bytes = openssl_random_pseudo_bytes(ceil($length / 2));
+        } else {
+            throw new Exception("no cryptographically secure random function available");
+        }
+        return $substr . substr(bin2hex($bytes), 0, 16);
+    }
 }

@@ -116,3 +116,7 @@
   > arrayToXml($array)
   > 
   > 数组转xml
+  
+  > requestId($length = 24)
+  > 
+  > 生成指定位数的请求id
