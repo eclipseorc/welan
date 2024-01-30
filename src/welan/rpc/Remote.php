@@ -1,6 +1,8 @@
 <?php
 namespace WeLan\Rpc;
 
+use Exception;
+
 /**
  * 远程调用服务
  * Class Remote
@@ -18,12 +20,12 @@ class Remote
      * 构造函数
      * Remote constructor.
      * @param string $apiUrl    远程服务地址
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($apiUrl = '')
     {
         if (!extension_loaded('yar')) {
-            throw new \Exception("extension yar not loaded");
+            throw new Exception("extension yar not loaded");
         }
         $this->api      = $apiUrl;
     }
@@ -50,7 +52,7 @@ class Remote
         }
         try {
             $result = $client->callService($data);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $result = [
                 'code'  => $e->getCode(),
                 'msg'   => $e->getMessage(),

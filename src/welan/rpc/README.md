@@ -9,9 +9,17 @@
     ./configure --with-php-config=/www/server/php/70/bin/php-config
     make && make install
 
-1、所有业务service方法继承自BaseService，返回数据统一使用outputData  
-2、BackendServer中使用的有tp6的app()函数，此框架只支持tp    
-3、远程调用使用    
+1、服务端使用
+    
+    $backend = new BackendServer();
+    $server = new \Yar_Server($backend);
+    $server->handle();
+
+    服务端使用header参数，可以使用request()->header()来获取客户端传入的YAR_OPT_HEADER参数
+
+2、所有业务service方法继承自BaseService，返回数据统一使用outputData  
+3、BackendServer中使用的有tp6的app()函数，此框架只支持tp    
+4、远程调用使用    
         
     a、单次调用
         $remote->call($data = [], $url = '', $opt = [])
