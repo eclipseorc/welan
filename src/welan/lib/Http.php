@@ -85,10 +85,10 @@ class Http
             curl_setopt($ch, CURLOPT_HEADER, false);
             $jsonHeader = ['Content-Type: application/json;charset=utf-8', 'Content-Length:' . strlen((string)$data)];
         }
-        if (is_array($header) && !empty($header) && !empty($jsonHeader)) {
+        if (!empty($jsonHeader)) {
             $header = array_merge($header, $jsonHeader);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         $str = curl_exec($ch);
         curl_close($ch);
         return $str;
