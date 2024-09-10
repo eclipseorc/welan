@@ -95,7 +95,7 @@ class Tools
     public static function mobilePartialMask($mobile = '')
     {
         if (strlen($mobile) >= 11) {
-            return substr_replace($mobile, '****', -4, 4);
+            return substr_replace($mobile, '****', 3, 4);
         } else {
             return $mobile;
         }
